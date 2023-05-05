@@ -19,25 +19,25 @@ public class AddToCartHighestNLowestPrice {
 		driver.findElement(By.id("user-name")).sendKeys("standard_user");
 		driver.findElement(By.id("password")).sendKeys("secret_sauce");
 		driver.findElement(By.id("login-button")).click();
-		addToCartClickBasedOnMaxNMinPrice();
+		addToCartClickForMaxNMinPricedItems();
 
 	}
 
-	public static void addToCartClickBasedOnMaxNMinPrice() {
+	public static void addToCartClickForMaxNMinPricedItems() {
 		List<WebElement> priceList = driver.findElements(By.xpath("//div[@class='inventory_item_price']"));
 		List<String> prices = new ArrayList<String>();
-		List<Float> floatPrices = new ArrayList<Float>();
+		List<Double> doublePrices = new ArrayList<Double>();
 		for (WebElement e : priceList) {
 			prices.add(e.getText().replace("$", ""));
 		}
 		for (String e : prices) {
-			floatPrices.add(Float.parseFloat(e));
+			doublePrices.add(Double.parseDouble(e));
 		}
-		Collections.sort(floatPrices);
-		driver.findElement(By.xpath("//div[normalize-space()='$" + floatPrices.get(floatPrices.size() - 1)
+		Collections.sort(doublePrices);
+		driver.findElement(By.xpath("//div[normalize-space()='$" + doublePrices.get(doublePrices.size() - 1)
 				+ "']/following-sibling::button")).click();
-		driver.findElement(By.xpath("//div[normalize-space()='$" + floatPrices.get(0) + "']/following-sibling::button"))
-				.click();
+		driver.findElement(
+				By.xpath("//div[normalize-space()='$" + doublePrices.get(0) + "']/following-sibling::button")).click();
 
 	}
 
